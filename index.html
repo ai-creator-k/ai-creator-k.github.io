@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Creator K 路 涓汉浣滃搧灞曠ず</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #0a0a0f;
+      --surface: #12121a;
+      --card: #1a1a2e;
+      --accent: #7c3aed;
+      --accent2: #06b6d4;
+      --text: #e2e8f0;
+      --muted: #8892a4;
+      --glow: rgba(124, 58, 237, 0.4);
+    }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* 鏄熺┖鑳屾櫙 */
+    .stars {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none; z-index: 0;
+    }
+    .star {
+      position: absolute;
+      width: 2px; height: 2px;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle var(--d) ease-in-out infinite;
+      opacity: 0;
+    }
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.1; }
+      50% { opacity: var(--o); }
+    }
+
+    /* 瀵艰埅 */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      backdrop-filter: blur(20px);
+      background: rgba(10, 10, 15, 0.8);
+      border-bottom: 1px solid rgba(124, 58, 237, 0.2);
+      padding: 0 2rem;
+    }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+    }
+    .logo {
+      font-size: 1.25rem; font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none;
+      font-size: 0.9rem; font-weight: 500;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* 鑻遍泟鍖?*/
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; z-index: 1;
+      padding: 2rem;
+    }
+    .hero-inner {
+      max-width: 900px; text-align: center;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(124, 58, 237, 0.15);
+      border: 1px solid rgba(124, 58, 237, 0.3);
+      border-radius: 100px;
+      padding: 0.5rem 1.25rem;
+      font-size: 0.85rem; color: var(--accent2);
+      margin-bottom: 2rem;
+      animation: fadeUp 0.8s ease-out;
+    }
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.8s ease-out 0.1s both;
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, var(--accent), var(--accent2), #f472b6);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      font-size: 1.15rem; color: var(--muted);
+      max-width: 600px; margin: 0 auto 2.5rem;
+      line-height: 1.7;
+      animation: fadeUp 0.8s ease-out 0.2s both;
+    }
+    .hero-btns {
+      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+      animation: fadeUp 0.8s ease-out 0.3s both;
+    }
+    .btn {
+      padding: 0.85rem 2rem;
+      border-radius: 12px;
+      font-size: 0.95rem; font-weight: 600;
+      cursor: pointer; transition: all 0.3s;
+      text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), #9333ea);
+      color: white; border: none;
+      box-shadow: 0 4px 20px var(--glow);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px var(--glow); }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .btn-ghost:hover { border-color: var(--accent); background: rgba(124,58,237,0.1); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 鍒嗗尯閫氱敤 */
+    section { position: relative; z-index: 1; padding: 8rem 2rem; }
+    .section-inner { max-width: 1200px; margin: 0 auto; }
+    .section-tag {
+      display: inline-block;
+      font-size: 0.8rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 1rem;
+    }
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800; margin-bottom: 1rem;
+    }
+    .section-desc {
+      color: var(--muted); font-size: 1.05rem;
+      max-width: 600px; margin-bottom: 4rem; line-height: 1.7;
+    }
+
+    /* 浣滃搧灞曠ず鍖?*/
+    .works { background: var(--surface); }
+    .works-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1.5rem;
+    }
+    .work-card {
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+      cursor: pointer;
+      position: relative;
+    }
+    .work-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(124, 58, 237, 0.4);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+    .work-thumb {
+      height: 200px;
+      background: linear-gradient(135deg, #1a1a2e, #2d1b69);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3rem;
+      position: relative; overflow: hidden;
+    }
+    .work-thumb::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0; height: 60%;
+      background: linear-gradient(transparent, var(--card));
+    }
+    .work-body { padding: 1.5rem; }
+    .work-category {
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--accent2); margin-bottom: 0.5rem;
+    }
+    .work-title {
+      font-size: 1.15rem; font-weight: 700;
+      margin-bottom: 0.75rem; line-height: 1.4;
+    }
+    .work-desc {
+      font-size: 0.88rem; color: var(--muted); line-height: 1.6;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .work-tags { display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap; }
+    .tag {
+      font-size: 0.75rem; padding: 0.25rem 0.75rem;
+      border-radius: 100px;
+      background: rgba(124, 58, 237, 0.15);
+      color: var(--accent2);
+      font-weight: 600;
+    }
+
+    /* 鍏充簬鎴?*/
+    .about-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    .about-visual {
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .avatar-ring {
+      width: 280px; height: 280px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2), #f472b6);
+      padding: 4px;
+      animation: spin 12s linear infinite;
+    }
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    .avatar-inner {
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      background: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 5rem;
+    }
+    .about-text .section-title { margin-bottom: 1.5rem; }
+    .about-text p {
+      color: var(--muted); font-size: 1.05rem;
+      line-height: 1.8; margin-bottom: 1.25rem;
+    }
+    .stats {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem; margin-top: 2.5rem;
+    }
+    .stat-item {
+      text-align: center;
+      padding: 1.25rem;
+      background: var(--card);
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .stat-num {
+      font-size: 2rem; font-weight: 900;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-label { font-size: 0.8rem; color: var(--muted); margin-top: 0.25rem; }
+
+    /* 搴曢儴 */
+    footer {
+      position: relative; z-index: 1;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+    .footer-inner { max-width: 1200px; margin: 0 auto; }
+    .footer-links { display: flex; gap: 2rem; justify-content: center; margin-bottom: 1.5rem; }
+    .footer-links a {
+      color: var(--muted); text-decoration: none;
+      font-size: 0.9rem; transition: color 0.3s;
+    }
+    .footer-links a:hover { color: var(--accent2); }
+    .footer-copy { font-size: 0.8rem; color: var(--muted); }
+
+    /* 鍝嶅簲寮?*/
+    @media (max-width: 768px) {
+      .about-inner { grid-template-columns: 1fr; text-align: center; }
+      .avatar-ring { width: 180px; height: 180px; }
+      .stats { grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
+      .nav-links { display: none; }
+      .works-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- 鏄熺┖鑳屾櫙 -->
+<div class="stars" id="stars"></div>
+
+<!-- 瀵艰埅 -->
+<nav>
+  <div class="nav-inner">
+    <div class="logo">鉁?AI Creator K</div>
+    <ul class="nav-links">
+      <li><a href="#works">浣滃搧灞曠ず</a></li>
+      <li><a href="#about">鍏充簬鎴?/a></li>
+      <li><a href="https://github.com/ai-creator-k" target="_blank">GitHub</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- 鑻遍泟鍖?-->
+<section class="hero" id="home">
+  <div class="hero-inner">
+    <div class="hero-badge">馃殌 涓汉浣滃搧灞曠ず绔?路 鎸佺画鏇存柊涓?/div>
+    <h1>
+      鐢ㄥ垱鎰忎笌鎶€鏈?br/>
+      <span class="gradient-text">鎵撻€犱护浜洪毦蹇樼殑浣撻獙</span>
+    </h1>
+    <p>
+      绀剧兢钀ラ攢绛栧垝 路 浼氬憳杩愯惀鏂规 路 浜у搧闇€姹傝璁?br/>
+      姣忎竴浠戒綔鍝侊紝閮芥槸瀵广€屾洿濂界殑鐢ㄦ埛浣撻獙銆嶇殑涓€娆℃帰绱?    </p>
+    <div class="hero-btns">
+      <a href="#works" class="btn btn-primary">馃帹 鏌ョ湅浣滃搧</a>
+      <a href="#about" class="btn btn-ghost">馃懁 鍏充簬鎴?鈫?/a>
+    </div>
+  </div>
+</section>
+
+<!-- 浣滃搧灞曠ず鍖?-->
+<section class="works" id="works">
+  <div class="section-inner">
+    <div class="section-tag">Selected Works</div>
+    <h2 class="section-title">浣滃搧灞曠ず</h2>
+    <p class="section-desc">娑电洊绀剧兢钀ラ攢銆佷細鍛樿繍钀ャ€佷骇鍝佺瓥鍒掔瓑澶氫釜鏂瑰悜锛屾瘡涓€浠芥柟妗堥兘缁忚繃娣卞害鎬濊€冧笌鍙嶅鎵撶（銆?/p>
+
+    <div class="works-grid">
+
+      <!-- 绀剧兢钀ラ攢 -->
+      <div class="work-card" onclick="void(0)">
+        <div class="work-thumb" style="background: linear-gradient(135deg, #667eea, #764ba2);">馃幆</div>
+        <div class="work-body">
+          <div class="work-category">绀剧兢钀ラ攢</div>
+          <div class="work-title">瓒呭競绀剧兢杩愯惀瀹屾暣鐜╂硶搴?/div>
+          <div class="work-desc">瑕嗙洊鏆楀彿娲诲姩銆佸瀹濇父鎴忋€侀€涘悆绯诲垪绛夊鍏冪帺娉曪紝绯荤粺鎬ф彁鍗囩ぞ缇ゆ椿璺冨害涓庤浆鍖栫巼銆?/div>
+          <div class="work-tags">
+            <span class="tag">绀剧兢杩愯惀</span>
+            <span class="tag">娲诲姩绛栧垝</span>
+            <span class="tag">鐢ㄦ埛澧為暱</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="work-card" onclick="void(0)">
+        <div class="work-thumb" style="background: linear-gradient(135deg, #f093fb, #f5576c);">馃敟</div>
+        <div class="work-body">
+          <div class="work-category">绀剧兢钀ラ攢</div>
+          <div class="work-title">绀剧兢鏆楀彿娲诲姩璇濇湳妯℃澘</div>
+          <div class="work-desc">璁捐涓撳睘绀剧兢鏆楀彿浣撶郴锛岄€氳繃瓒ｅ懗浜掑姩鎻愬崌鐢ㄦ埛褰掑睘鎰熶笌澶嶈喘鐜囥€?/div>
+          <div class="work-tags">
+            <span class="tag">鐢ㄦ埛浜掑姩</span>
+            <span class="tag">璇濇湳璁捐</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="work-card" onclick="void(0)">
+        <div class="work-thumb" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">馃弮鈾傦笍</div>
+        <div class="work-body">
+          <div class="work-category">绀剧兢钀ラ攢</div>
+          <div class="work-title">瓒呭競瀵诲疂娲诲姩鏂规</div>
+          <div class="work-desc">缁撳悎绾夸笅鍦烘櫙鐨勬矇娴稿紡瀵诲疂浣撻獙锛屽皢绀剧兢娲昏穬搴﹁浆鍖栦负鍒板簵瀹㈡祦銆?/div>
+          <div class="work-tags">
+            <span class="tag">绾夸笅娲诲姩</span>
+            <span class="tag">娌夋蹈浣撻獙</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 浼氬憳杩愯惀 -->
+      <div class="work-card" onclick="void(0)">
+        <div class="work-thumb" style="background: linear-gradient(135deg, #43e97b, #38f9d7);">馃拵</div>
+        <div class="work-body">
+          <div class="work-category">浼氬憳杩愯惀</div>
+          <div class="work-title">Fudi 浼氬憳鍏ョ兢杞寲涓庤妭鐐硅惀閿€鏂规</div>
+          <div class="work-desc">閽堝 Fudi 浼氬憳浣撶郴鐨勬繁搴﹁繍钀ユ柟妗堬紝閫氳繃鑺傜偣钀ラ攢鎻愬崌浼氬憳浠峰€兼劅鐭ヤ笌缁垂鐜囥€?/div>
+          <div class="work-tags">
+            <span class="tag">浼氬憳浣撶郴</span>
+            <span class="tag">鑺傜偣钀ラ攢</span>
+            <span class="tag">杞寲鐜囦紭鍖?/span>
+          </div>
+        </div>
+      </div>
+
+      <div class="work-card" onclick="void(0)">
+        <div class="work-thumb" style="background: linear-gradient(135deg, #fa709a, #fee140);">馃槾</div>
+        <div class="work-body">
+          <div class="work-category">浼氬憳杩愯惀</div>
+          <div class="work-title">Fudi 娌夌潯鐢ㄦ埛鍞ら啋涓庤妭鐐硅惀閿€鏂规</div>
+          <div class="work-desc">鍩轰簬鐢ㄦ埛琛屼负鏁版嵁鐨勬矇鐫′細鍛樺敜閱掔瓥鐣ワ紝缁撳悎鑺傜偣钀ラ攢瀹炵幇绮惧噯瑙﹁揪涓庨珮鏁堟縺娲汇€?/div>
+          <div class="work-tags">
+            <span class="tag">鐢ㄦ埛鍞ら啋</span>
+            <span class="tag">鏁版嵁鍒嗘瀽</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="work-card" onclick="void(0)">
+        <div class="work-thumb" style="background: linear-gradient(135deg, #a18cd1, #fbc2eb);">馃啎</div>
+        <div class="work-body">
+          <div class="work-category">浼氬憳杩愯惀</div>
+          <div class="work-title">Fudi 浼氬憳鎷夋柊鏂规</div>
+          <div class="work-desc">绯荤粺鎬ф媺鏂扮瓥鐣ワ紝浠庢笭閬撻€夋嫨銆佹縺鍔辫璁″埌杞寲璺緞锛屽叏鏂逛綅鎻愬崌鏂颁細鍛樿幏鍙栨晥鐜囥€?/div>
+          <div class="work-tags">
+            <span class="tag">鎷夋柊绛栫暐</span>
+            <span class="tag">娓犻亾浼樺寲</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 浜у搧绛栧垝 -->
+      <div class="work-card" onclick="void(0)">
+        <div class="work-thumb" style="background: linear-gradient(135deg, #ffecd2, #fcb69f);">馃摝</div>
+        <div class="work-body">
+          <div class="work-category">浜у搧绛栧垝</div>
+          <div class="work-title">鍐扮璐翠骇鍝侀渶姹傛枃妗?/div>
+          <div class="work-desc">浠庣敤鎴峰満鏅嚭鍙戯紝瀹氫箟鏅鸿兘鍐扮璐寸殑鍔熻兘杈圭晫銆佷氦浜掗€昏緫涓庢牳蹇冧环鍊间富寮犮€?/div>
+          <div class="work-tags">
+            <span class="tag">PRD</span>
+            <span class="tag">浜у搧璁捐</span>
+            <span class="tag">鐢ㄦ埛鐮旂┒</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="work-card" onclick="void(0)">
+        <div class="work-thumb" style="background: linear-gradient(135deg, #ff9a9e, #fecfef);">馃挕</div>
+        <div class="work-body">
+          <div class="work-category">浜у搧绛栧垝</div>
+          <div class="work-title">鍐扮璐村垱鎰忔柟妗堝缓璁〃</div>
+          <div class="work-desc">澶氱淮搴﹀垱鎰忓彂鏁ｏ紝缁撳悎甯傚満瓒嬪娍涓庣敤鎴风棝鐐癸紝杈撳嚭宸紓鍖栦骇鍝佸垱鎰忔柟鍚戙€?/div>
+          <div class="work-tags">
+            <span class="tag">鍒涙剰鍙戞暎</span>
+            <span class="tag">绔炲搧鍒嗘瀽</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 鏁版嵁鍒嗘瀽 -->
+      <div class="work-card" onclick="void(0)">
+        <div class="work-thumb" style="background: linear-gradient(135deg, #ff6a88, #ff99ac);">馃搳</div>
+        <div class="work-body">
+          <div class="work-category">鏁版嵁鍒嗘瀽</div>
+          <div class="work-title">灞卞浼氬憳搴楃儹閿€鍝佺被鍒嗘瀽鎶ュ憡</div>
+          <div class="work-desc">鍩轰簬閿€鍞暟鎹殑鐑攢鍝佺被娣卞害鍒嗘瀽锛屾寲鎺樻秷璐硅秼鍔夸笌閫夊搧绛栫暐娲炲療銆?/div>
+          <div class="work-tags">
+            <span class="tag">鏁版嵁鍒嗘瀽</span>
+            <span class="tag">娑堣垂娲炲療</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- 涓汉浠嬬粛鍖?-->
+<section class="about" id="about">
+  <div class="section-inner about-inner">
+    <div class="about-visual">
+      <div class="avatar-ring">
+        <div class="avatar-inner">馃馃捇</div>
+      </div>
+    </div>
+    <div class="about-text">
+      <div class="section-tag">About Me</div>
+      <h2 class="section-title">鍏充簬鎴?/h2>
+      <p>
+        鐑》浜庣敤鍒涙剰鍜屾妧鏈В鍐冲疄闄呴棶棰樸€傚湪绀剧兢钀ラ攢銆佷細鍛樿繍钀ャ€佷骇鍝佺瓥鍒掔瓑棰嗗煙鎸佺画娣辫€曪紝
+        鐩镐俊濂界殑鏂规鏃㈡槸鑹烘湳鐨勮〃杈撅紝涔熸槸鏁版嵁鐨勭瀛︺€?      </p>
+      <p>
+        姣忎竴浠戒綔鍝侀兘濮嬩簬瀵圭敤鎴风湡瀹為渶姹傜殑娲炲療锛岀粓浜庡彲搴﹂噺鐨勪笟鍔＄粨鏋溿€?        鏈熷緟涓庢洿澶氬織鍚岄亾鍚堢殑浼欎即锛屼竴璧峰垱閫犳湁鎰忎箟鐨勪环鍊笺€?      </p>
+      <div class="stats">
+        <div class="stat-item">
+          <div class="stat-num">15+</div>
+          <div class="stat-label">绛栧垝鏂规</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">5+</div>
+          <div class="stat-label">椤圭洰鏂瑰悜</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">鈭?/div>
+          <div class="stat-label">濂藉蹇?/div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 搴曢儴 -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-links">
+      <a href="https://github.com/ai-creator-k" target="_blank">GitHub</a>
+      <a href="mailto:1783270285@qq.com">閭鑱旂郴</a>
+    </div>
+    <div class="footer-copy">漏 2026 AI Creator K 路 涓汉浣滃搧灞曠ず绔?路 鐢?GitHub Pages 鎵樼</div>
+  </div>
+</footer>
+
+<script>
+  // 鐢熸垚鏄熺┖
+  const starsEl = document.getElementById('stars');
+  for (let i = 0; i < 120; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    star.style.left = Math.random() * 100 + '%';
+    star.style.top = Math.random() * 100 + '%';
+    star.style.setProperty('--d', (2 + Math.random() * 4) + 's');
+    star.style.setProperty('--o', (0.3 + Math.random() * 0.7));
+    star.style.animationDelay = Math.random() * 4 + 's';
+    star.style.width = star.style.height = (1 + Math.random() * 2) + 'px';
+    starsEl.appendChild(star);
+  }
+
+  // 骞虫粦婊氬姩
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      document.querySelector(a.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+</script>
+
+</body>
+</html>
