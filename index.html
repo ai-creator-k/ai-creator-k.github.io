@@ -114,7 +114,15 @@
       .nav-links{display:none}
       section{padding:6rem 1.5rem}
     }
-  </style>
+  
+/* Video hover play button */
+.video-card{position:relative;overflow:hidden}
+.video-card video{display:block;width:100%}
+.video-card .play-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(201,164,98,0.9);border:none;border-radius:50%;width:56px;height:56px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:3;transition:transform .2s,background .2s}
+.video-card .play-btn:hover{transform:translate(-50%,-50%) scale(1.1);background:rgba(201,164,98,1)}
+.video-card:hover .play-btn{opacity:1}
+
+</style>
 </head>
 <body>
 
@@ -155,12 +163,13 @@
       涵盖 AI 生成视频、产品广告、情景短剧等多类型创作，<br/>
       每一帧都是对 AIGC 视觉边界的探索。
     </p>
+      <p style="color:#c9a462;font-size:0.8rem;margin-top:0.5rem;">💡 视频较大，初次加载需数秒，点播放按钮观看</p>
 
     <div class="video-grid">
 
       <div class="video-card reveal">
         <div class="video-wrapper">
-          <video src="assets/videos/CG动漫.mp4" muted loop preload="metadata" playsinline></video>
+          <video src="assets/videos/CG动漫.mp4" muted loop preload="none" playsinline controls></video>
           <div class="video-overlay">
             <div class="play-btn">▶</div>
           </div>
@@ -174,7 +183,7 @@
 
       <div class="video-card reveal">
         <div class="video-wrapper">
-          <video src="assets/videos/产品展示.mp4" muted loop preload="metadata" playsinline></video>
+          <video src="assets/videos/产品展示.mp4" muted loop preload="none" playsinline controls></video>
           <div class="video-overlay">
             <div class="play-btn">▶</div>
           </div>
@@ -188,7 +197,7 @@
 
       <div class="video-card reveal">
         <div class="video-wrapper">
-          <video src="assets/videos/情景短剧.mp4" muted loop preload="metadata" playsinline></video>
+          <video src="assets/videos/情景短剧.mp4" muted loop preload="none" playsinline controls></video>
           <div class="video-overlay">
             <div class="play-btn">▶</div>
           </div>
@@ -202,7 +211,7 @@
 
       <div class="video-card reveal">
         <div class="video-wrapper">
-          <video src="assets/videos/图生视频.mp4" muted loop preload="metadata" playsinline></video>
+          <video src="assets/videos/图生视频.mp4" muted loop preload="none" playsinline controls></video>
           <div class="video-overlay">
             <div class="play-btn">▶</div>
           </div>
@@ -216,7 +225,7 @@
 
       <div class="video-card reveal">
         <div class="video-wrapper">
-          <video src="assets/videos/文生视频.mp4" muted loop preload="metadata" playsinline></video>
+          <video src="assets/videos/文生视频.mp4" muted loop preload="none" playsinline controls></video>
           <div class="video-overlay">
             <div class="play-btn">▶</div>
           </div>
@@ -230,7 +239,7 @@
 
       <div class="video-card reveal">
         <div class="video-wrapper">
-          <video src="assets/videos/悬疑风格.mp4" muted loop preload="metadata" playsinline></video>
+          <video src="assets/videos/悬疑风格.mp4" muted loop preload="none" playsinline controls></video>
           <div class="video-overlay">
             <div class="play-btn">▶</div>
           </div>
